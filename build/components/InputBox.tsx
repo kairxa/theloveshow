@@ -72,9 +72,9 @@ export default class InputBox extends React.Component<InputBoxProps, InputBoxSta
   handleFormSubmit(event: Event) {
     event.preventDefault();
     
-    let chatSplit = this.state.input.split(/:[^\S+]/i);
+    let chatSplit = this.state.input.split(/\:(.+)/i);
     let actorInitial = chatSplit[0];
-    let chat = chatSplit[1];
+    let chat = chatSplit[1].trim();
     let actorFull: string;
 
     switch( actorInitial ) {
