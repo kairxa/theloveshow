@@ -20504,7 +20504,12 @@
 	var STYLES = {
 	    container: {
 	        height: 'calc(100% - 86px)',
-	        flex: '1 100%'
+	        flex: '1 100%',
+	        overflowX: 'hidden',
+	        overflowY: 'auto'
+	    },
+	    chatBox: {
+	        paddingBottom: '86px'
 	    }
 	};
 	var ChatBox = (function (_super) {
@@ -20512,10 +20517,14 @@
 	    function ChatBox() {
 	        _super.apply(this, arguments);
 	    }
+	    ChatBox.prototype.componentWillReceiveProps = function (nextProps) {
+	        this.container.scrollTop = this.chatBox.clientHeight;
+	    };
 	    ChatBox.prototype.render = function () {
-	        return (React.createElement("section", {style: STYLES.container}, this.props.dialogList.map(function (data, key) {
+	        var _this = this;
+	        return (React.createElement("section", {style: STYLES.container, ref: function (ref) { _this.container = ref; }}, React.createElement("div", {style: STYLES.chatBox, ref: function (ref) { _this.chatBox = ref; }}, this.props.dialogList.map(function (data, key) {
 	            return (React.createElement(ChatDisplay_1.default, {actor: data.actor, chat: data.chat, key: key}));
-	        })));
+	        }))));
 	    };
 	    return ChatBox;
 	}(React.Component));
@@ -20675,9 +20684,13 @@
 	    container: {
 	        margin: '0 20px',
 	        borderTop: '1px solid hsla(0,0%,100%,.06)',
+	        width: 'calc(100% - 280px)',
 	        height: '86px',
 	        flex: '1 100%',
-	        padding: '20px 0'
+	        padding: '20px 0',
+	        position: 'absolute',
+	        bottom: '0px',
+	        left: '0px'
 	    },
 	    input: {
 	        border: 'solid 2px hsla(0,0%,100%,.2)',
@@ -20707,9 +20720,9 @@
 	    };
 	    InputBox.prototype.handleFormSubmit = function (event) {
 	        event.preventDefault();
-	        var chatSplit = this.state.input.split(/:[^\S+]/i);
+	        var chatSplit = this.state.input.split(/\:(.+)/i);
 	        var actorInitial = chatSplit[0];
-	        var chat = chatSplit[1];
+	        var chat = chatSplit[1].trim();
 	        var actorFull;
 	        switch (actorInitial) {
 	            case 'z':
