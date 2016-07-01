@@ -10,7 +10,7 @@ var config = {
     output: {
         path: path.resolve(__dirname, 'dist/assets/javascripts'),
         filename: '[name].js',
-        publicPath: '/assets/javascripts/'
+        publicPath: 'dist/assets/javascripts/'
     },
     module: {
         loaders: [
