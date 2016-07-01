@@ -22,11 +22,16 @@ const STYLES = {
 
     borderTop: '1px solid hsla(0,0%,100%,.06)',
 
+    width: 'calc(100% - 280px)',
     height: '86px',
 
     flex: '1 100%',
     
-    padding: '20px 0'
+    padding: '20px 0',
+    
+    position: 'absolute',
+    bottom: '0px',
+    left: '0px'
   },
   
   input: {

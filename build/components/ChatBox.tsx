@@ -12,7 +12,14 @@ const STYLES = {
   container: {
     height: 'calc(100% - 86px)',
 
-    flex: '1 100%'
+    flex: '1 100%',
+
+    overflowX: 'hidden',
+    overflowY: 'auto'
+  },
+
+  chatBox: {
+    paddingBottom: '86px'
   }
 };
 
@@ -22,14 +29,23 @@ interface Data {
 }
 
 export default class ChatBox extends React.Component<ChatBoxProps, Object> {
+  private container: HTMLElement;
+  private chatBox: HTMLElement;
+
+  componentWillReceiveProps(nextProps: ChatBoxProps) {
+    this.container.scrollTop = this.chatBox.clientHeight;
+  }
+
   render() {
     return (
-      <section style={STYLES.container}>
-        {this.props.dialogList.map( (data: Data, key: number) => {
-          return (
-            <ChatDisplay actor={data.actor} chat={data.chat} key={key}/>
-          )
-        })}
+      <section style={STYLES.container} ref={(ref) => {this.container = ref}}>
+        <div style={STYLES.chatBox} ref={(ref) => {this.chatBox = ref}}>
+          {this.props.dialogList.map( (data: Data, key: number) => {
+            return (
+              <ChatDisplay actor={data.actor} chat={data.chat} key={key}/>
+            )
+          })}
+        </div>
       </section>
     )
   }
