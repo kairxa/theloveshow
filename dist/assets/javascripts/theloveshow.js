@@ -61,6 +61,10 @@
 	        display: 'flex',
 	        minHeight: '100vh',
 	        flexWrap: 'wrap'
+	    },
+	    mainContent: {
+	        display: 'flex',
+	        flex: '1 1 100%'
 	    }
 	};
 	var LoveShow = (function (_super) {
@@ -69,7 +73,7 @@
 	        _super.apply(this, arguments);
 	    }
 	    LoveShow.prototype.render = function () {
-	        return (React.createElement("main", {style: STYLES.container}, React.createElement(TitleBar_1.default, null), React.createElement(DialogBox_1.default, null), React.createElement(MemberBox_1.default, null), React.createElement(Settings_1.default, {onSave: function () { }})));
+	        return (React.createElement("main", {style: STYLES.container}, React.createElement(TitleBar_1.default, null), React.createElement("section", {style: STYLES.mainContent}, React.createElement(DialogBox_1.default, null), React.createElement(MemberBox_1.default, null)), React.createElement(Settings_1.default, {onSave: function () { }})));
 	    };
 	    return LoveShow;
 	}(React.Component));
@@ -20850,8 +20854,8 @@
 	    container: {
 	        height: '56px',
 	        position: 'fixed',
-	        top: '0',
-	        right: '0'
+	        top: 0,
+	        right: 0
 	    },
 	    trigger: {
 	        border: 'none',
@@ -20868,14 +20872,14 @@
 	        height: '100vh',
 	        justifyContent: 'center',
 	        position: 'fixed',
-	        top: '0',
-	        left: '0',
+	        top: 0,
+	        left: 0,
 	        zIndex: '10',
 	        backgroundColor: 'rgba(0, 0, 0, 0.8)'
 	    },
 	    closeButton: {
 	        border: 'none',
-	        padding: '0',
+	        padding: 0,
 	        position: 'absolute',
 	        top: '20px',
 	        right: '20px',

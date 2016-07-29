@@ -11,6 +11,10 @@ const STYLES = {
     display: 'flex',
     minHeight: '100vh',
     flexWrap: 'wrap'
+  },
+  mainContent: {
+    display: 'flex',
+    flex: '1 1 100%'
   }
 };
 
@@ -19,8 +23,10 @@ class LoveShow extends React.Component<Object, Object> {
     return (
       <main style={STYLES.container}>
         <TitleBar />
-        <DialogBox />
-        <MemberBox />
+        <section style={STYLES.mainContent}>
+          <DialogBox />
+          <MemberBox />
+        </section>
         <Settings onSave={() => {}}/>
       </main>
     );

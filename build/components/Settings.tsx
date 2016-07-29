@@ -19,8 +19,8 @@ const STYLES = {
     height: '56px',
 
     position: 'fixed',
-    top: '0',
-    right: '0'
+    top: 0,
+    right: 0
   },
 
   trigger: {
@@ -46,8 +46,8 @@ const STYLES = {
     justifyContent: 'center',
 
     position: 'fixed',
-    top: '0',
-    left: '0',
+    top: 0,
+    left: 0,
 
     zIndex: '10',
 
@@ -57,7 +57,7 @@ const STYLES = {
   closeButton: {
     border: 'none',
 
-    padding: '0',
+    padding: 0,
 
     position: 'absolute',
     top: '20px',
