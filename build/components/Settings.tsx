@@ -1,7 +1,14 @@
 import * as React from 'react';
 
 interface SettingsProps {
-  onSave: Function
+  onSave: Function,
+  channelState: {
+    channelTitle: string,
+
+    elrixStatus: string,
+    kairxaStatus: string,
+    zlaxxarStatus: string
+  }
 }
 
 interface SettingsState {
@@ -76,9 +83,43 @@ const STYLES = {
 
     padding: '20px',
 
+    alignSelf: 'center',
+
     backgroundColor: '#fafafa',
 
-    alignSelf: 'center'
+    fontSize: '14px',
+    color: '#676a6c'
+  },
+
+  settingsRow: {
+    marginBottom: '20px',
+
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+
+  inputBox: {
+    marginTop: '10px',
+
+    height: '44px',
+
+    flex: '1 1 100%',
+
+    padding: '0 10px'
+  },
+
+  saveButton: {
+    border: 'none',
+    borderRadius: '3px',
+
+    padding: '10px 15px',
+
+    backgroundColor: '#5aaf93',
+
+    fontSize: '14px',
+    color: '#fafafa',
+
+    cursor: 'pointer'
   }
 }
 
@@ -87,11 +128,11 @@ export default class Settings extends React.Component<SettingsProps, SettingsSta
     super(props);
 
     this.state = {
-      elrixStatus: '',
-      kairxaStatus: '',
-      zlaxxarStatus: '',
+      elrixStatus: props.channelState.elrixStatus,
+      kairxaStatus: props.channelState.kairxaStatus,
+      zlaxxarStatus: props.channelState.zlaxxarStatus,
 
-      channelTitle: '',
+      channelTitle: props.channelState.channelTitle,
 
       settingsBoxShown: false
     }
@@ -103,6 +144,51 @@ export default class Settings extends React.Component<SettingsProps, SettingsSta
     }));
   }
 
+  handleSettingsChange(inputType: string, event: Event) {
+    let eventTarget = event.target as HTMLInputElement; // typecasting
+
+    switch(inputType) {
+      case 'channelTitle':
+        this.setState(
+          Object.assign({}, this.state, {
+            channelTitle: eventTarget.value
+          })
+        );
+      break;
+      case 'elrixStatus':
+        this.setState(
+          Object.assign({}, this.state, {
+            elrixStatus: eventTarget.value
+          })
+        );
+      break;
+      case 'kairxaStatus':
+        this.setState(
+          Object.assign({}, this.state, {
+            kairxaStatus: eventTarget.value
+          })
+        );
+      break;
+      case 'zlaxxarStatus':
+        this.setState(
+          Object.assign({}, this.state, {
+            zlaxxarStatus: eventTarget.value
+          })
+        );
+      break;
+    }
+  }
+
+  handleSettingsSave() {
+    this.setState(
+      Object.assign({}, this.state, {
+        settingsBoxShown: false
+      })
+    );
+
+    this.props.onSave(this.state);
+  }
+
   render() {
     return (
       <section style={STYLES.container}>
@@ -111,7 +197,47 @@ export default class Settings extends React.Component<SettingsProps, SettingsSta
         <section style={STYLES.settingsBoxContainer}>
           <button style={STYLES.closeButton} onClick={this.handleToggleSettings.bind(this)}>Close</button>
           <div style={STYLES.settingsBox}>
-            
+            <div style={STYLES.settingsRow}>
+              <label htmlFor="channelTitle">Channel Title</label>
+              <input
+                type="text"
+                id="channelTitle"
+                style={STYLES.inputBox}
+                defaultValue={this.state.channelTitle}
+                onChange={this.handleSettingsChange.bind(this, 'channelTitle')}
+              />
+            </div>
+            <div style={STYLES.settingsRow}>
+              <label htmlFor="elrixStatus">ELRIX's Status</label>
+              <input
+                type="text"
+                id="elrixStatus"
+                style={STYLES.inputBox}
+                defaultValue={this.state.elrixStatus}
+                onChange={this.handleSettingsChange.bind(this, 'elrixStatus')}
+              />
+            </div>
+            <div style={STYLES.settingsRow}>
+              <label htmlFor="kairxaStatus">Kairxa's Status</label>
+              <input
+                type="text"
+                id="kairxaStatus"
+                style={STYLES.inputBox}
+                defaultValue={this.state.kairxaStatus}
+                onChange={this.handleSettingsChange.bind(this, 'kairxaStatus')}
+              />
+            </div>
+            <div style={STYLES.settingsRow}>
+              <label htmlFor="zlaxxarStatus">Zlaxxar's Status</label>
+              <input
+                type="text"
+                id="zlaxxarStatus" 
+                style={STYLES.inputBox}
+                defaultValue={this.state.zlaxxarStatus}
+                onChange={this.handleSettingsChange.bind(this, 'zlaxxarStatus')}
+              />
+            </div>
+            <button style={STYLES.saveButton} onClick={this.handleSettingsSave.bind(this)}>Save</button>
           </div>
         </section>  
         }

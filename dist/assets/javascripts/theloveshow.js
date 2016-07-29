@@ -69,11 +69,20 @@
 	};
 	var LoveShow = (function (_super) {
 	    __extends(LoveShow, _super);
-	    function LoveShow() {
-	        _super.apply(this, arguments);
+	    function LoveShow(props) {
+	        _super.call(this, props);
+	        this.state = {
+	            channelTitle: '',
+	            elrixStatus: '',
+	            kairxaStatus: '',
+	            zlaxxarStatus: ''
+	        };
 	    }
+	    LoveShow.prototype.handleSettingsSave = function (channelStates) {
+	        this.setState(channelStates);
+	    };
 	    LoveShow.prototype.render = function () {
-	        return (React.createElement("main", {style: STYLES.container}, React.createElement(TitleBar_1.default, null), React.createElement("section", {style: STYLES.mainContent}, React.createElement(DialogBox_1.default, null), React.createElement(MemberBox_1.default, null)), React.createElement(Settings_1.default, {onSave: function () { }})));
+	        return (React.createElement("main", {style: STYLES.container}, React.createElement(TitleBar_1.default, {channelTitle: this.state.channelTitle}), React.createElement("section", {style: STYLES.mainContent}, React.createElement(DialogBox_1.default, null), React.createElement(MemberBox_1.default, {elrixStatus: this.state.elrixStatus, kairxaStatus: this.state.kairxaStatus, zlaxxarStatus: this.state.zlaxxarStatus})), React.createElement(Settings_1.default, {onSave: this.handleSettingsSave.bind(this), channelState: this.state})));
 	    };
 	    return LoveShow;
 	}(React.Component));
@@ -20409,9 +20418,9 @@
 	        margin: '0 10px',
 	        width: '1px',
 	        height: '22px',
-	        backgroundColor: '#707578'
+	        backgroundColor: 'hsla(0,0%,85%,.1)'
 	    },
-	    channelTopic: {
+	    channelTitle: {
 	        fontSize: '14px',
 	        lineHeight: '22px',
 	        color: '#707578'
@@ -20423,7 +20432,8 @@
 	        _super.apply(this, arguments);
 	    }
 	    TitleBar.prototype.render = function () {
-	        return (React.createElement("section", {style: STYLES.container}, React.createElement("div", null, React.createElement("span", {style: STYLES.hashtag}, "#"), React.createElement("span", {style: STYLES.channelName}, "theloveshow")), React.createElement("div", {style: STYLES.divider}), React.createElement("div", {style: STYLES.channelTopic}, React.createElement("span", null, "TEMPORARY TITLE"))));
+	        return (React.createElement("section", {style: STYLES.container}, React.createElement("div", null, React.createElement("span", {style: STYLES.hashtag}, "#"), React.createElement("span", {style: STYLES.channelName}, "theloveshow")), this.props.channelTitle &&
+	            React.createElement("div", {style: STYLES.divider}), React.createElement("div", {style: STYLES.channelTitle}, React.createElement("span", null, this.props.channelTitle))));
 	    };
 	    return TitleBar;
 	}(React.Component));
@@ -20627,6 +20637,7 @@
 	    switch (actor) {
 	        case 'zlaxxar':
 	            memberNameStyle = {
+	                flex: '1 1 100%',
 	                fontSize: '16px',
 	                lineHeight: '17px',
 	                color: 'rgb(241, 196, 15)',
@@ -20635,6 +20646,7 @@
 	            break;
 	        case 'elrix':
 	            memberNameStyle = {
+	                flex: '1 1 100%',
 	                fontSize: '16px',
 	                lineHeight: '17px',
 	                color: 'rgb(52, 152, 219)',
@@ -20643,6 +20655,7 @@
 	            break;
 	        case 'kairxa':
 	            memberNameStyle = {
+	                flex: '1 1 100%',
 	                fontSize: '16px',
 	                lineHeight: '17px',
 	                color: 'rgb(26, 188, 156)',
@@ -20818,11 +20831,20 @@
 	        backgroundPosition: 'center center'
 	    },
 	    member: {
+	        display: 'flex',
+	        maxWidth: '135px',
+	        minHeight: '42px',
+	        flexWrap: 'wrap',
+	        alignItems: 'center',
 	        padding: '5px 0'
 	    },
 	    memberTagline: {
+	        maxWidth: '135px',
 	        fontSize: '11px',
-	        color: '#8a8e94'
+	        color: '#8a8e94',
+	        whiteSpace: 'nowrap',
+	        textOverflow: 'ellipsis',
+	        overflow: 'hidden'
 	    }
 	};
 	var MemberBox = (function (_super) {
@@ -20831,7 +20853,10 @@
 	        _super.apply(this, arguments);
 	    }
 	    MemberBox.prototype.render = function () {
-	        return (React.createElement("section", {style: STYLES.container}, React.createElement("header", {style: STYLES.header}, "ONLINE—3"), React.createElement("div", {style: STYLES.memberContainer}, React.createElement("div", {style: Members.getAvatar(STYLES.avatar, 'elrix')}, React.createElement("div", {style: STYLES.onlineStatus})), React.createElement("div", {style: STYLES.member}, React.createElement("div", {style: Members.getStyle('elrix')}, "ELRIX"), React.createElement("div", {style: STYLES.memberTagline}, "playing ", React.createElement("strong", null, "women's hearts")))), React.createElement("div", {style: STYLES.memberContainer}, React.createElement("div", {style: Members.getAvatar(STYLES.avatar, 'kairxa')}, React.createElement("div", {style: STYLES.onlineStatus})), React.createElement("div", {style: STYLES.member}, React.createElement("div", {style: Members.getStyle('kairxa')}, "Kairxa"), React.createElement("div", {style: STYLES.memberTagline}, "playing ", React.createElement("strong", null, "shits")))), React.createElement("div", {style: STYLES.memberContainer}, React.createElement("div", {style: Members.getAvatar(STYLES.avatar, 'zlaxxar')}, React.createElement("div", {style: STYLES.onlineStatus})), React.createElement("div", {style: STYLES.member}, React.createElement("div", {style: Members.getStyle('zlaxxar')}, "Zlaxxar"), React.createElement("div", {style: STYLES.memberTagline}, "playing ", React.createElement("strong", null, "Exiled Marauder"))))));
+	        return (React.createElement("section", {style: STYLES.container}, React.createElement("header", {style: STYLES.header}, "ONLINE—3"), React.createElement("div", {style: STYLES.memberContainer}, React.createElement("div", {style: Members.getAvatar(STYLES.avatar, 'elrix')}, React.createElement("div", {style: STYLES.onlineStatus})), React.createElement("div", {style: STYLES.member}, React.createElement("div", {style: Members.getStyle('elrix')}, "ELRIX"), React.createElement("div", {style: STYLES.memberTagline}, this.props.elrixStatus &&
+	            React.createElement("span", null, "Playing ", React.createElement("strong", null, this.props.elrixStatus))))), React.createElement("div", {style: STYLES.memberContainer}, React.createElement("div", {style: Members.getAvatar(STYLES.avatar, 'kairxa')}, React.createElement("div", {style: STYLES.onlineStatus})), React.createElement("div", {style: STYLES.member}, React.createElement("div", {style: Members.getStyle('kairxa')}, "Kairxa"), React.createElement("div", {style: STYLES.memberTagline}, this.props.kairxaStatus &&
+	            React.createElement("span", null, "Playing ", React.createElement("strong", null, this.props.kairxaStatus))))), React.createElement("div", {style: STYLES.memberContainer}, React.createElement("div", {style: Members.getAvatar(STYLES.avatar, 'zlaxxar')}, React.createElement("div", {style: STYLES.onlineStatus})), React.createElement("div", {style: STYLES.member}, React.createElement("div", {style: Members.getStyle('zlaxxar')}, "Zlaxxar"), React.createElement("div", {style: STYLES.memberTagline}, this.props.zlaxxarStatus &&
+	            React.createElement("span", null, "Playing ", React.createElement("strong", null, this.props.zlaxxarStatus)))))));
 	    };
 	    return MemberBox;
 	}(React.Component));
@@ -20891,8 +20916,30 @@
 	    settingsBox: {
 	        width: '420px',
 	        padding: '20px',
+	        alignSelf: 'center',
 	        backgroundColor: '#fafafa',
-	        alignSelf: 'center'
+	        fontSize: '14px',
+	        color: '#676a6c'
+	    },
+	    settingsRow: {
+	        marginBottom: '20px',
+	        display: 'flex',
+	        flexWrap: 'wrap'
+	    },
+	    inputBox: {
+	        marginTop: '10px',
+	        height: '44px',
+	        flex: '1 1 100%',
+	        padding: '0 10px'
+	    },
+	    saveButton: {
+	        border: 'none',
+	        borderRadius: '3px',
+	        padding: '10px 15px',
+	        backgroundColor: '#5aaf93',
+	        fontSize: '14px',
+	        color: '#fafafa',
+	        cursor: 'pointer'
 	    }
 	};
 	var Settings = (function (_super) {
@@ -20900,10 +20947,10 @@
 	    function Settings(props) {
 	        _super.call(this, props);
 	        this.state = {
-	            elrixStatus: '',
-	            kairxaStatus: '',
-	            zlaxxarStatus: '',
-	            channelTitle: '',
+	            elrixStatus: props.channelState.elrixStatus,
+	            kairxaStatus: props.channelState.kairxaStatus,
+	            zlaxxarStatus: props.channelState.zlaxxarStatus,
+	            channelTitle: props.channelState.channelTitle,
 	            settingsBoxShown: false
 	        };
 	    }
@@ -20912,9 +20959,40 @@
 	            settingsBoxShown: !this.state.settingsBoxShown
 	        }));
 	    };
+	    Settings.prototype.handleSettingsChange = function (inputType, event) {
+	        var eventTarget = event.target; // typecasting
+	        switch (inputType) {
+	            case 'channelTitle':
+	                this.setState(Object.assign({}, this.state, {
+	                    channelTitle: eventTarget.value
+	                }));
+	                break;
+	            case 'elrixStatus':
+	                this.setState(Object.assign({}, this.state, {
+	                    elrixStatus: eventTarget.value
+	                }));
+	                break;
+	            case 'kairxaStatus':
+	                this.setState(Object.assign({}, this.state, {
+	                    kairxaStatus: eventTarget.value
+	                }));
+	                break;
+	            case 'zlaxxarStatus':
+	                this.setState(Object.assign({}, this.state, {
+	                    zlaxxarStatus: eventTarget.value
+	                }));
+	                break;
+	        }
+	    };
+	    Settings.prototype.handleSettingsSave = function () {
+	        this.setState(Object.assign({}, this.state, {
+	            settingsBoxShown: false
+	        }));
+	        this.props.onSave(this.state);
+	    };
 	    Settings.prototype.render = function () {
 	        return (React.createElement("section", {style: STYLES.container}, React.createElement("button", {style: STYLES.trigger, onClick: this.handleToggleSettings.bind(this)}, "Settings"), this.state.settingsBoxShown &&
-	            React.createElement("section", {style: STYLES.settingsBoxContainer}, React.createElement("button", {style: STYLES.closeButton, onClick: this.handleToggleSettings.bind(this)}, "Close"), React.createElement("div", {style: STYLES.settingsBox}))));
+	            React.createElement("section", {style: STYLES.settingsBoxContainer}, React.createElement("button", {style: STYLES.closeButton, onClick: this.handleToggleSettings.bind(this)}, "Close"), React.createElement("div", {style: STYLES.settingsBox}, React.createElement("div", {style: STYLES.settingsRow}, React.createElement("label", {htmlFor: "channelTitle"}, "Channel Title"), React.createElement("input", {type: "text", id: "channelTitle", style: STYLES.inputBox, defaultValue: this.state.channelTitle, onChange: this.handleSettingsChange.bind(this, 'channelTitle')})), React.createElement("div", {style: STYLES.settingsRow}, React.createElement("label", {htmlFor: "elrixStatus"}, "ELRIX's Status"), React.createElement("input", {type: "text", id: "elrixStatus", style: STYLES.inputBox, defaultValue: this.state.elrixStatus, onChange: this.handleSettingsChange.bind(this, 'elrixStatus')})), React.createElement("div", {style: STYLES.settingsRow}, React.createElement("label", {htmlFor: "kairxaStatus"}, "Kairxa's Status"), React.createElement("input", {type: "text", id: "kairxaStatus", style: STYLES.inputBox, defaultValue: this.state.kairxaStatus, onChange: this.handleSettingsChange.bind(this, 'kairxaStatus')})), React.createElement("div", {style: STYLES.settingsRow}, React.createElement("label", {htmlFor: "zlaxxarStatus"}, "Zlaxxar's Status"), React.createElement("input", {type: "text", id: "zlaxxarStatus", style: STYLES.inputBox, defaultValue: this.state.zlaxxarStatus, onChange: this.handleSettingsChange.bind(this, 'zlaxxarStatus')})), React.createElement("button", {style: STYLES.saveButton, onClick: this.handleSettingsSave.bind(this)}, "Save")))));
 	    };
 	    return Settings;
 	}(React.Component));

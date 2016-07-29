@@ -37,10 +37,10 @@ const STYLES = {
     width: '1px',
     height: '22px',
 
-    backgroundColor: '#707578'
+    backgroundColor: 'hsla(0,0%,85%,.1)'
   },
 
-  channelTopic: {
+  channelTitle: {
     fontSize: '14px',
 
     lineHeight: '22px',
@@ -48,7 +48,7 @@ const STYLES = {
   }
 }
 
-export default class TitleBar extends React.Component<Object, Object> {
+export default class TitleBar extends React.Component<{channelTitle: string}, Object> {
   render() {
     return (
       <section style={STYLES.container}>
@@ -56,9 +56,11 @@ export default class TitleBar extends React.Component<Object, Object> {
           <span style={STYLES.hashtag}>#</span>
           <span style={STYLES.channelName}>theloveshow</span>
         </div>
-        <div style={STYLES.divider}></div>
-        <div style={STYLES.channelTopic}>
-          <span>TEMPORARY TITLE</span>
+        {this.props.channelTitle &&
+        <div style={STYLES.divider}></div>  
+        }
+        <div style={STYLES.channelTitle}>
+          <span>{this.props.channelTitle}</span>
         </div>
       </section>
     )

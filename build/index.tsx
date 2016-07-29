@@ -6,6 +6,13 @@ import DialogBox from './components/DialogBox';
 import MemberBox from './components/MemberBox';
 import Settings from './components/Settings';
 
+interface channelStates {
+  channelTitle: string,
+  elrixStatus: string,
+  kairxaStatus: string,
+  zlaxxarStatus: string
+}
+
 const STYLES = {
   container: {
     display: 'flex',
@@ -18,16 +25,35 @@ const STYLES = {
   }
 };
 
-class LoveShow extends React.Component<Object, Object> {
+class LoveShow extends React.Component<Object, channelStates> {
+  constructor(props: Object) {
+    super(props);
+
+    this.state = {
+      channelTitle: '',
+      elrixStatus: '',
+      kairxaStatus: '',
+      zlaxxarStatus: ''
+    }
+  }
+
+  handleSettingsSave(channelStates: channelStates) {
+    this.setState(channelStates);
+  }
+
   render() {
     return (
       <main style={STYLES.container}>
-        <TitleBar />
+        <TitleBar channelTitle={this.state.channelTitle}/>
         <section style={STYLES.mainContent}>
           <DialogBox />
-          <MemberBox />
+          <MemberBox
+            elrixStatus={this.state.elrixStatus}
+            kairxaStatus={this.state.kairxaStatus}
+            zlaxxarStatus={this.state.zlaxxarStatus}
+          />
         </section>
-        <Settings onSave={() => {}}/>
+        <Settings onSave={this.handleSettingsSave.bind(this)} channelState={this.state}/>
       </main>
     );
   }

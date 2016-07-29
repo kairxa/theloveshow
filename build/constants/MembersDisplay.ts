@@ -13,6 +13,7 @@ interface AvatarComplete extends AvatarGeneric {
 }
 
 interface MemberNameStyle {
+  flex: '1 1 100%',
   fontSize: string,
   lineHeight: string,
   color: string,
@@ -49,6 +50,8 @@ export function getStyle(actor: string): MemberNameStyle {
   switch( actor ) {
     case 'zlaxxar':
       memberNameStyle = {
+        flex: '1 1 100%',
+
         fontSize: '16px',
         lineHeight: '17px',
         color: 'rgb(241, 196, 15)',
@@ -57,6 +60,8 @@ export function getStyle(actor: string): MemberNameStyle {
       break;
     case 'elrix':
       memberNameStyle = {
+        flex: '1 1 100%',
+
         fontSize: '16px',
         lineHeight: '17px',
         color: 'rgb(52, 152, 219)',
@@ -65,6 +70,8 @@ export function getStyle(actor: string): MemberNameStyle {
       break;
     case 'kairxa':
       memberNameStyle = {
+        flex: '1 1 100%',
+        
         fontSize: '16px',
         lineHeight: '17px',
         color: 'rgb(26, 188, 156)',
