@@ -48,6 +48,7 @@ Thumbs.db
 # Compiled Assets #
 ###################
 client/dist
+*.map
 
 # Sublime Project File #
 ########################
