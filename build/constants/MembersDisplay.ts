@@ -21,7 +21,7 @@ interface MemberNameStyle {
 }
 
 const KAIRXA_AVATAR_PATH = require('../images/phlacta.JPG');
-const ELRIX_AVATAR_PATH = require('../images/choa-park-image.JPG');
+const ELRIX_AVATAR_PATH = require('../images/dva.JPG');
 const ZLX_AVATAR_PATH = require('../images/galun.JPG');
 
 export function getAvatar(generic: AvatarGeneric, actor: string): AvatarComplete {
