@@ -5,6 +5,10 @@ import {ChatStructure as ChatStructureInterface} from '../interfaces/ChatStructu
 import ChatBox from './ChatBox';
 import InputBox from './InputBox';
 
+interface DialogBoxProps {
+  chatInterval: number
+}
+
 interface DialogBoxState {
   dialogList: ChatStructureInterface[]
 }
@@ -21,8 +25,8 @@ const STYLES = {
   }
 };
 
-export default class DialogBox extends React.Component<Object, DialogBoxState> {
-  constructor(props: Object) {
+export default class DialogBox extends React.Component<DialogBoxProps, DialogBoxState> {
+  constructor(props: DialogBoxProps) {
     super(props);
 
     this.state = {
@@ -59,7 +63,7 @@ export default class DialogBox extends React.Component<Object, DialogBoxState> {
     return (
       <section style={STYLES.container}>
         <ChatBox dialogList={this.state.dialogList}/>
-        <InputBox onSubmit={this.handleInputSubmit.bind(this)}/>
+        <InputBox onSubmit={this.handleInputSubmit.bind(this)} chatInterval={this.props.chatInterval}/>
       </section>
     );
   }

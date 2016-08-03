@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 interface InputBoxProps {
-  onSubmit: Function
+  onSubmit: Function,
+  chatInterval: number
 }
 
 interface InputBoxState {
@@ -15,6 +16,9 @@ interface ValueEventTarget extends EventTarget {
 interface ValueEvent extends Event {
   target: ValueEventTarget
 }
+
+const enterKey = 13;
+const shiftKey = 16;
 
 const STYLES = {
   container: {
@@ -50,11 +54,15 @@ const STYLES = {
 
     color: 'hsla(0,0%,100%,.7)',
 
-    outline: 'none'
+    outline: 'none',
+    resize: 'none'
   }
 };
 
 export default class InputBox extends React.Component<InputBoxProps, InputBoxState> {
+  private isShiftDown = false;
+  private currentActorInitial = '';
+
   constructor(props: InputBoxProps) {
     super(props);
 
@@ -63,19 +71,21 @@ export default class InputBox extends React.Component<InputBoxProps, InputBoxSta
     }
   }
 
-  handleInputChange(event: ValueEvent) {
-    this.setState({
-      input: event.target.value
-    });
-  }
-
-  handleFormSubmit(event: Event) {
-    event.preventDefault();
-    
-    let chatSplit = this.state.input.split(/\:(.+)/i);
-    let actorInitial = chatSplit[0];
-    let chat = chatSplit[1].trim();
+  lineSubmitter(element: string) {
+    let regexFormat = /\:(.+)/i;
+    let chatSplit: string[];
+    let actorInitial: string;
+    let chat: string;
     let actorFull: string;
+
+    if ( regexFormat.test(element) ) {
+      chatSplit = element.split(regexFormat);
+      this.currentActorInitial = actorInitial = chatSplit[0];
+      chat = chatSplit[1].trim();
+    } else {
+      actorInitial = this.currentActorInitial;
+      chat = element;
+    }
 
     switch( actorInitial ) {
       case 'z':
@@ -89,25 +99,68 @@ export default class InputBox extends React.Component<InputBoxProps, InputBoxSta
         break;
     }
 
-    this.setState({
-      input: ''
-    });
-
     this.props.onSubmit({
       actor: actorFull,
       chat: [chat]
     });
   }
 
+  handleEditorKeyDown(event: KeyboardEvent) {
+    switch(event.which) {
+      case shiftKey:
+        this.isShiftDown = true;
+        break;
+      case enterKey:
+        this.handleEnterKeypressEvent(event);
+        break;
+    }
+  }
+
+  handleEditorKeyUp(event: KeyboardEvent) {
+    if( event.which === shiftKey ) {
+      this.isShiftDown = false;
+    }
+  }
+
+  handleInputChange(event: ValueEvent) {
+    this.setState({
+      input: event.target.value
+    });
+  }
+
+  handleEnterKeypressEvent(event: KeyboardEvent) {
+    if( !this.isShiftDown && this.state.input ) {
+      event.preventDefault();
+
+      let wholeConversation = this.state.input.split(/\n/i);
+      wholeConversation = wholeConversation.filter(Boolean);
+      let counter = 1;
+      this.lineSubmitter(wholeConversation[0]); // Initially without delay, so setInterval will start with second chat
+      setInterval(() => {
+        if( counter >= wholeConversation.length ) {
+          return;
+        }
+
+        this.lineSubmitter(wholeConversation[counter]);
+        counter = counter + 1;
+      }, this.props.chatInterval);
+
+      this.setState({
+        input: ''
+      });
+    }
+  }
+
   render() {
     return ( 
-      <form style={STYLES.container} onSubmit={this.handleFormSubmit.bind(this)}>
-        <input
-          type="text"
+      <form style={STYLES.container}>
+        <textarea
           value={this.state.input}
           style={STYLES.input}
           placeholder="Chat in theloveshow..."
           onChange={this.handleInputChange.bind(this)}
+          onKeyDown={this.handleEditorKeyDown.bind(this)}
+          onKeyUp={this.handleEditorKeyUp.bind(this)}
         />
       </form>
     );

@@ -10,7 +10,8 @@ interface channelStates {
   channelTitle: string,
   elrixStatus: string,
   kairxaStatus: string,
-  zlaxxarStatus: string
+  zlaxxarStatus: string,
+  chatInterval: number
 }
 
 const STYLES = {
@@ -33,7 +34,8 @@ class LoveShow extends React.Component<Object, channelStates> {
       channelTitle: '',
       elrixStatus: '',
       kairxaStatus: '',
-      zlaxxarStatus: ''
+      zlaxxarStatus: '',
+      chatInterval: 1500
     }
   }
 
@@ -46,7 +48,7 @@ class LoveShow extends React.Component<Object, channelStates> {
       <main style={STYLES.container}>
         <TitleBar channelTitle={this.state.channelTitle}/>
         <section style={STYLES.mainContent}>
-          <DialogBox />
+          <DialogBox chatInterval={this.state.chatInterval}/>
           <MemberBox
             elrixStatus={this.state.elrixStatus}
             kairxaStatus={this.state.kairxaStatus}

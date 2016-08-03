@@ -7,7 +7,9 @@ interface SettingsProps {
 
     elrixStatus: string,
     kairxaStatus: string,
-    zlaxxarStatus: string
+    zlaxxarStatus: string,
+
+    chatInterval: number
   }
 }
 
@@ -17,6 +19,8 @@ interface SettingsState {
   zlaxxarStatus: string,
 
   channelTitle: string,
+  
+  chatInterval: number,
 
   settingsBoxShown: boolean
 }
@@ -134,6 +138,8 @@ export default class Settings extends React.Component<SettingsProps, SettingsSta
 
       channelTitle: props.channelState.channelTitle,
 
+      chatInterval: props.channelState.chatInterval,
+
       settingsBoxShown: false
     }
   }
@@ -154,28 +160,35 @@ export default class Settings extends React.Component<SettingsProps, SettingsSta
             channelTitle: eventTarget.value
           })
         );
-      break;
+        break;
       case 'elrixStatus':
         this.setState(
           Object.assign({}, this.state, {
             elrixStatus: eventTarget.value
           })
         );
-      break;
+        break;
       case 'kairxaStatus':
         this.setState(
           Object.assign({}, this.state, {
             kairxaStatus: eventTarget.value
           })
         );
-      break;
+        break;
       case 'zlaxxarStatus':
         this.setState(
           Object.assign({}, this.state, {
             zlaxxarStatus: eventTarget.value
           })
         );
-      break;
+        break;
+      case 'chatInterval':
+        this.setState(
+          Object.assign({}, this.state, {
+            chatInterval: eventTarget.value
+          })
+        );
+        break;
     }
   }
 
@@ -235,6 +248,16 @@ export default class Settings extends React.Component<SettingsProps, SettingsSta
                 style={STYLES.inputBox}
                 defaultValue={this.state.zlaxxarStatus}
                 onChange={this.handleSettingsChange.bind(this, 'zlaxxarStatus')}
+              />
+            </div>
+            <div style={STYLES.settingsRow}>
+              <label htmlFor="zlaxxarStatus">Chat Interval (in miliseconds)</label>
+              <input
+                type="number"
+                id="chatInterval"
+                style={STYLES.inputBox}
+                defaultValue={this.state.chatInterval}
+                onChange={this.handleSettingsChange.bind(this, 'chatInterval')}
               />
             </div>
             <button style={STYLES.saveButton} onClick={this.handleSettingsSave.bind(this)}>Save</button>
